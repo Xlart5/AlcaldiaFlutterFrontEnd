@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:alcaldia_front/config/router/add_router.dart';
+import 'package:alcaldia_front/presentacion/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -44,7 +47,9 @@ class _HomeView extends StatelessWidget {
         SizedBox(
             width: 300,
             child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push(LogInScreen.link);
+                },
                 child: const Text(
                   "Ingresar",
                   style: TextStyle(fontSize: 15, letterSpacing: 2),
