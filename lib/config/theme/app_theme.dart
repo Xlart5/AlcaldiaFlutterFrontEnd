@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const colorList = <Color>[
+  Color.fromRGBO(80, 7, 120, 0),
   Colors.blue,
   Colors.red,
   Colors.yellow,
