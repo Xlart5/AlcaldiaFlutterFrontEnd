@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const colorList = <Color>[
-  Color.fromRGBO(80, 7, 120, 0),
+  Color.fromRGBO(80, 7, 120, 5),
   Colors.blue,
   Colors.red,
   Colors.yellow,
@@ -20,5 +20,21 @@ class AppTheme {
   ThemeData getTheme() => ThemeData(
       useMaterial3: true,
       colorSchemeSeed: colorList[selectecColor],
-      appBarTheme: AppBarTheme(centerTitle: true));
+      appBarTheme: const AppBarTheme(centerTitle: true),
+      fontFamily: 'Roboto',
+      textTheme: const TextTheme(
+        bodyMedium: TextStyle(fontFamily: 'Roboto'),
+        bodySmall: TextStyle(fontFamily: 'Roboto'),
+        bodyLarge: TextStyle(fontFamily: 'Roboto'),
+        titleMedium: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 18,
+            fontWeight: FontWeight.normal),
+        titleLarge: TextStyle(
+          fontFamily: 'Montserrat',
+          fontSize: 22,
+          fontWeight: FontWeight.normal,
+        ),
+        titleSmall: TextStyle(fontFamily: 'Montserrat'),
+      ));
 }

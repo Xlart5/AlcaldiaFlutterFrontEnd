@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:alcaldia_front/config/router/add_router.dart';
 import 'package:alcaldia_front/presentacion/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,10 +8,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return Scaffold(
+  
+    return const Scaffold(
       backgroundColor: Colors.white,
-      body: const _HomeView(),
+      body: _HomeView(),
     );
   }
 }
