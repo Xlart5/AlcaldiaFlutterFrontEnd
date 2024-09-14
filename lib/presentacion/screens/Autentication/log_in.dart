@@ -1,3 +1,4 @@
+import 'package:alcaldia_front/widgets/Buttons/outlined_button.dart';
 import 'package:alcaldia_front/widgets/shared/field_box.dart';
 import 'package:flutter/material.dart';
 
@@ -56,61 +57,55 @@ class _BodyLogIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return Column(
+    
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-                const Image(
+                Image(
                   image: AssetImage("assets/loginMap.png"),
                   fit: BoxFit.cover,
                   width: 300,
                   height: 300,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 50,
                 ),
                 FieldBox(
-                  color: colors.surface,
+                  style: 0,
+                  color: Colors.white,
                   hintext: "Ingrese nombre de usuario",
+                  width: double.infinity,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
                 FieldBox(
-                  color: colors.surface,
+                  style: 0,
+                  color: Colors.white,
                   hintext: "Ingrese Contraseña",
+                  width: double.infinity,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 50,
                 ),
                 SizedBox(
                     width: 300,
                     height: 50,
-                    child: OutlinedButton(
-                        style: ButtonStyle(
-                            elevation: WidgetStatePropertyAll(4),
-                            backgroundColor:
-                                WidgetStatePropertyAll(colors.primary)),
-                        onPressed: () {},
-                        child: Text(
-                          'ingresar',
-                          style: TextStyle(
-                              fontSize: 16,
-                              letterSpacing: 1,
-                              color: Colors.white),
-                        )))
+                    child: Outlinedbutton(
+                      text: "Ingresar",
+                    ))
               ],
             ),
           ),
         ),
-        const SizedBox(
+        SizedBox(
           width: double.infinity,
           height: 300,
           child: Image(

@@ -1,4 +1,3 @@
-
 import 'package:alcaldia_front/presentacion/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +7,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return const Scaffold(
       backgroundColor: Colors.white,
       body: _HomeView(),
@@ -46,11 +44,11 @@ class _HomeView extends StatelessWidget {
             width: 300,
             child: OutlinedButton(
                 onPressed: () {
-                  context.push(LogInScreen.link);
+                  context.push(LogIn2.link);
                 },
                 child: const Text(
                   "Ingresar",
-                  style: TextStyle(fontSize: 15, letterSpacing: 2),
+                  style: TextStyle(fontSize: 15, letterSpacing: 2,),
                 ))),
         const SizedBox(
           width: double.infinity,
