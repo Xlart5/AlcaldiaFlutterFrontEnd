@@ -54,7 +54,7 @@ class _Home extends StatelessWidget {
                                         topLeft: Radius.circular(20)),
                                     "Iniciar Sesion")
                                 : Container()),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         )
                       ],
@@ -70,7 +70,7 @@ class _Home extends StatelessWidget {
                         inicio ? "Ingresar" : "Registrar",
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 30,
+                            fontSize: 35,
                             color: colors.onSurface),
                       ),
                       //botones de loguin
@@ -81,6 +81,7 @@ class _Home extends StatelessWidget {
               ],
             ),
           ),
+          //Boton de registrarse
           Transform(
               alignment: Alignment
                   .center, // Alinea la imagen desde el centro para evitar que desaparezca
@@ -150,6 +151,7 @@ class _ButtonsLoguin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool valor = true;
     final colors = Theme.of(context).colorScheme;
     return Expanded(
       child: SizedBox(

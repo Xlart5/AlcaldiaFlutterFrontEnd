@@ -40,6 +40,7 @@ class _HomeView extends StatelessWidget {
             ),
           ],
         )),
+        // Boton de ingresar. ruta
         SizedBox(
             width: 300,
             child: OutlinedButton(
@@ -48,7 +49,10 @@ class _HomeView extends StatelessWidget {
                 },
                 child: const Text(
                   "Ingresar",
-                  style: TextStyle(fontSize: 15, letterSpacing: 2,),
+                  style: TextStyle(
+                    fontSize: 15,
+                    letterSpacing: 2,
+                  ),
                 ))),
         const SizedBox(
           width: double.infinity,
