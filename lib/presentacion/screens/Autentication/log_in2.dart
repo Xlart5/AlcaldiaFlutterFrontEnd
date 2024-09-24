@@ -1,5 +1,8 @@
+import 'package:alcaldia_front/presentacion/providers/login_provider.dart';
+import 'package:alcaldia_front/presentacion/screens/info/info_screen.dart';
 import 'package:alcaldia_front/widgets/shared/field_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LogIn2 extends StatelessWidget {
   const LogIn2({super.key});
@@ -11,13 +14,14 @@ class LogIn2 extends StatelessWidget {
   }
 }
 
-class _Home extends StatelessWidget {
+class _Home extends ConsumerWidget {
   final bool inicio = true;
   const _Home();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     final colors = Theme.of(context).colorScheme;
+    final bool valorbool = ref.watch(loginProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: colors.surface,
@@ -47,7 +51,7 @@ class _Home extends StatelessWidget {
                         Transform(
                             alignment: Alignment.center,
                             transform: Matrix4.identity()..scale(-1.0, 1.0),
-                            child: inicio
+                            child: valorbool
                                 ? const _Buttonloginregister(
                                     BorderRadius.only(
                                         bottomLeft: Radius.circular(20),
@@ -66,12 +70,27 @@ class _Home extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        inicio ? "Ingresar" : "Registrar",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 35,
-                            color: colors.onSurface),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            !valorbool ? "MePath" : "Registrarse",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 35,
+                                color: colors.onSurface),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return InfoWidget();
+                                  },
+                                );
+                              },
+                              icon: Icon(Icons.info_outline))
+                        ],
                       ),
                       //botones de loguin
                       const _ButtonsLoguin(),
@@ -98,15 +117,17 @@ class _Home extends StatelessWidget {
                   alignment: Alignment
                       .center, //   Alinea la imagen desde el centro para evitar que desaparezca
                   transform: Matrix4.identity()..scale(-1.0, 1.0),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _Buttonloginregister(
-                          BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20)),
-                          "Registrarse")
+                      !valorbool
+                          ? _Buttonloginregister(
+                              BorderRadius.only(
+                                  topRight: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                              "Registrarse")
+                          : Container()
                     ],
                   ),
                   // Voltea horizontalmente)
@@ -118,16 +139,17 @@ class _Home extends StatelessWidget {
   }
 }
 
-class _Buttonloginregister extends StatelessWidget {
+class _Buttonloginregister extends ConsumerWidget {
   final BorderRadiusGeometry border;
   final String text;
+
   const _Buttonloginregister(
     this.border,
     this.text,
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       height: 50,
       width: 150,
@@ -136,7 +158,11 @@ class _Buttonloginregister extends StatelessWidget {
               shape: WidgetStatePropertyAll(RoundedRectangleBorder(
             borderRadius: border,
           ))),
-          onPressed: () {},
+          onPressed: () {
+            ref.read(loginProvider.notifier).update(
+                  (state) => !state,
+                );
+          },
           child: Text(
             text,
             style: TextStyle(fontSize: 18),
@@ -146,12 +172,12 @@ class _Buttonloginregister extends StatelessWidget {
   }
 }
 
-class _ButtonsLoguin extends StatelessWidget {
+class _ButtonsLoguin extends ConsumerWidget {
   const _ButtonsLoguin();
 
   @override
-  Widget build(BuildContext context) {
-    final bool valor = true;
+  Widget build(BuildContext context, ref) {
+    final bool valor = ref.watch(loginProvider);
     final colors = Theme.of(context).colorScheme;
     return Expanded(
       child: SizedBox(
@@ -162,49 +188,84 @@ class _ButtonsLoguin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            Colors.black.withOpacity(0.2), // Color de la sombra
-                        spreadRadius: 2, //
-                        blurRadius: 10, //
-                        offset: const Offset(
-                            0, 5), // Desplazamiento de la sombra (x, y)
-                      ),
-                    ],
-                    border: Border.all(color: Colors.black, width: 0),
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(40),
-                        bottomRight: Radius.circular(40))),
-                width: 300,
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FieldBox(
-                      icons: Icons.people_alt_outlined,
-                      style: 2,
-                      borderWidth: 0,
+                  decoration: BoxDecoration(
                       color: Colors.white,
-                      hintext: "ingrese usuario",
-                      width: 230,
-                      align: Alignment(1, 0.5),
-                    ),
-                    Divider(),
-                    FieldBox(
-                      icons: Icons.lock,
-                      style: 2,
-                      color: Colors.white,
-                      hintext: "Contraseña",
-                      width: 230,
-                      borderWidth: 0,
-                      align: Alignment(1, -0.5),
-                    ),
-                  ],
-                ),
-              ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black
+                              .withOpacity(0.2), // Color de la sombra
+                          spreadRadius: 2, //
+                          blurRadius: 10, //
+                          offset: const Offset(
+                              0, 5), // Desplazamiento de la sombra (x, y)
+                        ),
+                      ],
+                      border: Border.all(color: Colors.black, width: 0),
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(40),
+                          bottomRight: Radius.circular(40))),
+                  width: 300,
+                  child: !valor
+                      ? const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FieldBox(
+                              icons: Icons.people_alt_outlined,
+                              style: 2,
+                              borderWidth: 0,
+                              color: Colors.white,
+                              hintext: "ingrese usuario",
+                              width: 230,
+                              align: Alignment(1, 0.5),
+                            ),
+                            Divider(),
+                            FieldBox(
+                              icons: Icons.lock,
+                              style: 2,
+                              color: Colors.white,
+                              hintext: "Contraseña",
+                              width: 230,
+                              borderWidth: 0,
+                              align: Alignment(1, -0.5),
+                            ),
+                          ],
+                        )
+                      : const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FieldBox(
+                              icons: Icons.people_alt_outlined,
+                              style: 2,
+                              borderWidth: 0,
+                              color: Colors.white,
+                              hintext: "ingrese email",
+                              width: 230,
+                              align: Alignment(1, 0.5),
+                            ),
+                            Divider(),
+                            FieldBox(
+                              icons: Icons.lock,
+                              style: 2,
+                              color: Colors.white,
+                              hintext: "Contraseña",
+                              width: 230,
+                              borderWidth: 0,
+                              align: Alignment(1, -0.5),
+                            ),
+                            Divider(),
+                            FieldBox(
+                              icons: Icons.lock,
+                              style: 2,
+                              color: Colors.white,
+                              hintext: "Repita Contraseña",
+                              width: 230,
+                              borderWidth: 0,
+                              align: Alignment(1, -0.5),
+                            ),
+                          ],
+                        )),
             ],
           ),
           Positioned(
