@@ -1,8 +1,10 @@
 import 'package:alcaldia_front/presentacion/providers/login_provider.dart';
 import 'package:alcaldia_front/presentacion/screens/info/info_screen.dart';
+import 'package:alcaldia_front/presentacion/screens/screens.dart';
 import 'package:alcaldia_front/widgets/shared/field_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LogIn2 extends StatelessWidget {
   const LogIn2({super.key});
@@ -25,115 +27,119 @@ class _Home extends ConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: colors.surface,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Transform(
-                  alignment: Alignment
-                      .center, // Alinea la imagen desde el centro para evitar que desaparezca
-                  transform: Matrix4.identity()
-                    ..scale(-1.0, 1.0), // Voltea horizontalmente
-                  child: Container(
-                    width: double.infinity,
-                    height: 300,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage("assets/wave3.png"),
-                      fit: BoxFit.cover,
-                    )),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      body: Container(
+        height: double.maxFinite,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Transform(
+                alignment: Alignment
+                    .center, // Alinea la imagen desde el centro para evitar que desaparezca
+                transform: Matrix4.identity()
+                  ..scale(-1.0, 1.0), // Voltea horizontalmente
+                child: Container(
+                  width: double.infinity,
+                  height: 300,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                    image: AssetImage("assets/wave3.png"),
+                    fit: BoxFit.cover,
+                  )),
+                  child: Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()..scale(-1.0, 1.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          valorbool
+                              ? const _Buttonloginregister(
+                                  BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      topLeft: Radius.circular(20)),
+                                  "Iniciar Sesion")
+                              : Container(),
+                        ],
+                      )),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 400,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.identity()..scale(-1.0, 1.0),
-                            child: valorbool
-                                ? const _Buttonloginregister(
-                                    BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        topLeft: Radius.circular(20)),
-                                    "Iniciar Sesion")
-                                : Container()),
-                        const SizedBox(
-                          height: 40,
-                        )
+                        Text(
+                          !valorbool ? "MePath" : "Registrarse",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 35,
+                              color: colors.onSurface),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                      height: 500, child: InfoWidget());
+                                },
+                              );
+                            },
+                            icon: Icon(Icons.info_outline))
                       ],
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            !valorbool ? "MePath" : "Registrarse",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 35,
-                                color: colors.onSurface),
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return InfoWidget();
-                                  },
-                                );
-                              },
-                              icon: Icon(Icons.info_outline))
-                        ],
-                      ),
-                      //botones de loguin
-                      const _ButtonsLoguin(),
-                    ],
-                  ),
-                ),
-              ],
+                  //botones de loguin
+                  const _ButtonsLoguin(),
+                ],
+              ),
             ),
-          ),
-          //Boton de registrarse
-          Transform(
-              alignment: Alignment
-                  .center, // Alinea la imagen desde el centro para evitar que desaparezca
-              transform: Matrix4.identity()
-                ..scale(-1.0, 1.1), // Voltea horizontalmente
-              child: Container(
-                width: double.infinity,
-                height: 300,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/wave2.png"),
-                        fit: BoxFit.cover)),
-                child: Transform(
-                  alignment: Alignment
-                      .center, //   Alinea la imagen desde el centro para evitar que desaparezca
-                  transform: Matrix4.identity()..scale(-1.0, 1.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      !valorbool
-                          ? _Buttonloginregister(
-                              BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(20)),
-                              "Registrarse")
-                          : Container()
-                    ],
+            Expanded(
+              child: Transform(
+                alignment: Alignment
+                    .center, // Alinea la imagen desde el centro para evitar que desaparezca
+                transform: Matrix4.identity()
+                  ..scale(-1.0, 1.1), // Voltea horizontalmente
+                child: Container(
+                  width: double.infinity,
+                  height: 300,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/wave2.png"),
+                          fit: BoxFit.cover)),
+                  child: Transform(
+                    alignment: Alignment
+                        .center, //   Alinea la imagen desde el centro para evitar que desaparezca
+                    transform: Matrix4.identity()..scale(-1.0, 1.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        !valorbool
+                            ? _Buttonloginregister(
+                                BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20)),
+                                "Registrarse")
+                            : Container()
+                      ],
+                    ),
+                    // Voltea horizontalmente)
                   ),
-                  // Voltea horizontalmente)
                 ),
-              )),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -179,7 +185,7 @@ class _ButtonsLoguin extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final bool valor = ref.watch(loginProvider);
     final colors = Theme.of(context).colorScheme;
-    return Expanded(
+    return Flexible(
       child: SizedBox(
         width: double.infinity,
         child: Stack(children: [
@@ -204,7 +210,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                       borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(40),
                           bottomRight: Radius.circular(40))),
-                  width: 300,
+                  width: 250,
                   child: !valor
                       ? const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +222,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               borderWidth: 0,
                               color: Colors.white,
                               hintext: "ingrese usuario",
-                              width: 230,
+                              width: 200,
                               align: Alignment(1, 0.5),
                             ),
                             Divider(),
@@ -225,7 +231,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               style: 2,
                               color: Colors.white,
                               hintext: "Contraseña",
-                              width: 230,
+                              width: 200,
                               borderWidth: 0,
                               align: Alignment(1, -0.5),
                             ),
@@ -241,7 +247,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               borderWidth: 0,
                               color: Colors.white,
                               hintext: "ingrese email",
-                              width: 230,
+                              width: 200,
                               align: Alignment(1, 0.5),
                             ),
                             Divider(),
@@ -250,7 +256,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               style: 2,
                               color: Colors.white,
                               hintext: "Contraseña",
-                              width: 230,
+                              width: 200,
                               borderWidth: 0,
                               align: Alignment(1, -0.5),
                             ),
@@ -260,7 +266,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               style: 2,
                               color: Colors.white,
                               hintext: "Repita Contraseña",
-                              width: 230,
+                              width: 200,
                               borderWidth: 0,
                               align: Alignment(1, -0.5),
                             ),
@@ -269,14 +275,16 @@ class _ButtonsLoguin extends ConsumerWidget {
             ],
           ),
           Positioned(
-            right: 150,
+            right: 80,
             bottom: 150,
             child: SizedBox(
               width: 70,
               height: 70,
               child: ElevatedButton(
                   style: const ButtonStyle(),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go(HomeScreenView.link);
+                  },
                   child: Icon(
                     Icons.arrow_forward_outlined,
                     color: colors.primary,
@@ -285,7 +293,7 @@ class _ButtonsLoguin extends ConsumerWidget {
           ),
           Positioned(
             right: 14,
-            bottom: 30,
+            bottom: 10,
             child: TextButton(
                 onPressed: () {},
                 child: Text(

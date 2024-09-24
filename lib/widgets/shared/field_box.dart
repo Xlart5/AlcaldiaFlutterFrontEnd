@@ -55,7 +55,7 @@ class FieldBox extends StatelessWidget {
     return Container(
       alignment: align,
       width: width,
-      height: 70,
+      height: 60,
       child: TextFormField(
         decoration: inputDecoration,
       ),

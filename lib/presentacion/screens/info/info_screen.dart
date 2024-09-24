@@ -81,30 +81,30 @@ class _InfoWidget extends ConsumerWidget {
           ),
         ),
         Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              4,
-              (index) {
-                return GestureDetector(
-                  onTap: () => _controller.animateToPage(
-                    index,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            4,
+            (index) {
+              return GestureDetector(
+                onTap: () => _controller.animateToPage(
+                  index,
+                ),
+                child: Container(
+                  width: 12.0,
+                  height: 12.0,
+                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black)
+                        .withOpacity(index1 == index ? 0.9 : 0.4),
                   ),
-                  child: Container(
-                    width: 12.0,
-                    height: 12.0,
-                    margin:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black)
-                          .withOpacity(index1 == index ? 0.9 : 0.4),
-                    ),
-                  ),
-                );
-              },
-            ))
+                ),
+              );
+            },
+          ),
+        )
       ],
     );
   }
@@ -135,7 +135,7 @@ class _InfoScreenText extends StatelessWidget {
         ),
         Text(
           text,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 14),
           textAlign: TextAlign.center,
         )
       ],
