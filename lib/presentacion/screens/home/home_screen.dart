@@ -1,8 +1,10 @@
 import 'package:alcaldia_front/presentacion/providers/index_navbar_provider.dart';
 import 'package:alcaldia_front/presentacion/screens/mapscreen/map_screen.dart';
+import 'package:alcaldia_front/widgets/navigationbar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreenView extends ConsumerWidget {
   const HomeScreenView({super.key});
@@ -13,23 +15,8 @@ class HomeScreenView extends ConsumerWidget {
     final _page = ref.watch(pageIndexProvider);
     final _bottomNavigationKey = GlobalKey<CurvedNavigationBarState>();
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        items: [
-          Icon(Icons.history, size: 30),
-          Icon(Icons.home_outlined, size: 30),
-          Icon(Icons.settings, size: 30),
-        ],
-        key: _bottomNavigationKey,
-        index: _page,
-        color: Colors.white,
-        buttonBackgroundColor: Colors.white,
-        backgroundColor: Colors.blueAccent,
-        onTap: (index) {
-          // Cambiar el estado usando el provider cuando el usuario cambia de página
-          ref.read(pageIndexProvider.notifier).state = index;
-        },
-        letIndexChange: (index) => true,
-      ),
+      bottomNavigationBar:
+          curvednavbar(bottomNavigationKey: _bottomNavigationKey, page: _page),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: const [

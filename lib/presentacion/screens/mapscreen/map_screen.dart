@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/navigation_provider.dart';
+import '../History/saved_routes_screen.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   @override
@@ -11,8 +12,6 @@ class MapScreen extends ConsumerStatefulWidget {
 
 class _MapScreenState extends ConsumerState<MapScreen> {
   final MapController _mapController = MapController();
-
-  // Mantén el resto del código anterior
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     double initialZoom = 13.0;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Route Tracking')),
       body: FlutterMap(
         mapController: _mapController,
         options: MapOptions(
@@ -37,28 +35,27 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           ),
-          PolylineLayer(
-            polylines: [
-              Polyline(
-                points: routePoints,
-                strokeWidth: 4.0,
-                color: Colors.blue,
-              ),
-            ],
-          ),
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: LatLng(
-                  routePoints.isNotEmpty ? routePoints.last.latitude : 50.5,
-                  routePoints.isNotEmpty ? routePoints.last.longitude : 30.51,
+          if (routePoints.isNotEmpty)
+            PolylineLayer(
+              polylines: [
+                Polyline(
+                  points: routePoints,
+                  strokeWidth: 4.0,
+                  color: Colors.blue,
                 ),
-                child: Container(
+              ],
+            ),
+          if (routePoints.isNotEmpty)
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: routePoints.last,
+                  width: 30,
+                  height: 30,
                   child: Icon(Icons.location_on, color: Colors.red, size: 30),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
