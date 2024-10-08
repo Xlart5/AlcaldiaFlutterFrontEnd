@@ -57,8 +57,8 @@ class _BodyLogIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    return const Column(
+    final TextEditingController emailController = TextEditingController();
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
@@ -82,6 +82,7 @@ class _BodyLogIn extends StatelessWidget {
                   color: Colors.white,
                   hintext: "Ingrese nombre de usuario",
                   width: double.infinity,
+                  controller: emailController,
                 ),
                 SizedBox(
                   height: 20,
@@ -91,6 +92,7 @@ class _BodyLogIn extends StatelessWidget {
                   color: Colors.white,
                   hintext: "Ingrese Contraseña",
                   width: double.infinity,
+                  controller: emailController,
                 ),
                 SizedBox(
                   height: 50,

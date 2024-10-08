@@ -8,6 +8,7 @@ class FieldBox extends StatelessWidget {
   final double borderWidth;
   final IconData? icons;
   final AlignmentGeometry? align;
+  final TextEditingController controller;
 
   const FieldBox(
       {super.key,
@@ -17,7 +18,7 @@ class FieldBox extends StatelessWidget {
       required this.width,
       this.borderWidth = 1,
       this.icons,
-      this.align});
+      this.align, required this.controller});
   @override
   Widget build(BuildContext context) {
     final List<InputBorder> inputs;
@@ -57,6 +58,7 @@ class FieldBox extends StatelessWidget {
       width: width,
       height: 60,
       child: TextFormField(
+        controller: controller,
         decoration: inputDecoration,
       ),
     );

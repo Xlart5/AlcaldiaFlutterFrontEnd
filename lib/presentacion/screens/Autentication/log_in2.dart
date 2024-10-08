@@ -185,6 +185,11 @@ class _ButtonsLoguin extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final bool valor = ref.watch(loginProvider);
     final colors = Theme.of(context).colorScheme;
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController passwordrepiteController =
+        TextEditingController();
+    final authApi = AuthApi(); // Instancia de AuthApi
     return Flexible(
       child: SizedBox(
         width: double.infinity,
@@ -212,7 +217,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                           bottomRight: Radius.circular(40))),
                   width: 250,
                   child: !valor
-                      ? const Column(
+                      ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -224,6 +229,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               hintext: "ingrese usuario",
                               width: 200,
                               align: Alignment(1, 0.5),
+                              controller: emailController,
                             ),
                             Divider(),
                             FieldBox(
@@ -234,10 +240,11 @@ class _ButtonsLoguin extends ConsumerWidget {
                               width: 200,
                               borderWidth: 0,
                               align: Alignment(1, -0.5),
+                              controller: passwordController,
                             ),
                           ],
                         )
-                      : const Column(
+                      : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -249,6 +256,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               hintext: "ingrese email",
                               width: 200,
                               align: Alignment(1, 0.5),
+                              controller: emailController,
                             ),
                             Divider(),
                             FieldBox(
@@ -259,6 +267,7 @@ class _ButtonsLoguin extends ConsumerWidget {
                               width: 200,
                               borderWidth: 0,
                               align: Alignment(1, -0.5),
+                              controller: passwordController,
                             ),
                             Divider(),
                             FieldBox(
@@ -269,9 +278,15 @@ class _ButtonsLoguin extends ConsumerWidget {
                               width: 200,
                               borderWidth: 0,
                               align: Alignment(1, -0.5),
+                              controller: passwordrepiteController,
                             ),
                           ],
                         )),
+              ElevatedButton(
+                  onPressed: () {
+                    checkServerConnection();
+                  },
+                  child: Text("prueba"))
             ],
           ),
           Positioned(
@@ -282,8 +297,60 @@ class _ButtonsLoguin extends ConsumerWidget {
               height: 70,
               child: ElevatedButton(
                   style: const ButtonStyle(),
-                  onPressed: () {
-                    context.go(HomeScreenView.link);
+                  onPressed: () async {
+                    if (valor) {
+                      // Registro
+                      print("Iniciando registro...");
+                      try {
+                        print("Email: ${emailController.text}");
+                        print("Password: ${passwordController.text}");
+                        final response = await authApi.register(
+                            emailController.text, passwordController.text);
+                        print("Response: $response");
+                        if (response['success']) {
+                          // Si el registro es exitoso, navega a la siguiente pantalla
+                          context.go(HomeScreenView.link);
+                        } else {
+                          // Muestra un mensaje si algo sale mal
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(response['message'] ??
+                                    'Error en el registro')),
+                          );
+                        }
+                      } catch (e) {
+                        print('Error en el registro: $e');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Error en el registro')),
+                        );
+                      }
+                    } else {
+                      // Login
+                      print("Iniciando sesión...");
+                      try {
+                        print("Email: ${emailController.text}");
+                        print("Password: ${passwordController.text}");
+                        final response = await authApi.login(
+                            emailController.text, passwordController.text);
+                        print("Response: $response");
+                        if (response['success']) {
+                          // Si el login es exitoso, navega a la siguiente pantalla
+                          context.go(HomeScreenView.link);
+                        } else {
+                          // Muestra un mensaje si algo sale mal
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(response['message'] ??
+                                    'Error en el login')),
+                          );
+                        }
+                      } catch (e) {
+                        print('Error en el login: $e');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Error en el login')),
+                        );
+                      }
+                    }
                   },
                   child: Icon(
                     Icons.arrow_forward_outlined,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import '../../../models/route_with_date.dart';
 
 import 'package:intl/intl.dart';
@@ -13,8 +12,7 @@ class RouteDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MapController _mapController = MapController();
-    String formattedDate =
-        DateFormat('yyyy-MM-dd – kk:mm').format(route.date);
+    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(route.date);
 
     return Scaffold(
       appBar: AppBar(title: Text('Ruta del $formattedDate')),
