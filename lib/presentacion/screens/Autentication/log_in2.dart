@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:alcaldia_front/presentacion/providers/auth_providers.dart';
 import 'package:alcaldia_front/presentacion/providers/login_provider.dart';
 import 'package:alcaldia_front/presentacion/screens/info/info_screen.dart';
 import 'package:alcaldia_front/presentacion/screens/screens.dart';
@@ -282,11 +285,6 @@ class _ButtonsLoguin extends ConsumerWidget {
                             ),
                           ],
                         )),
-              ElevatedButton(
-                  onPressed: () {
-                    checkServerConnection();
-                  },
-                  child: Text("prueba"))
             ],
           ),
           Positioned(
@@ -296,66 +294,64 @@ class _ButtonsLoguin extends ConsumerWidget {
               width: 70,
               height: 70,
               child: ElevatedButton(
-                  style: const ButtonStyle(),
-                  onPressed: () async {
-                    if (valor) {
-                      // Registro
-                      print("Iniciando registro...");
-                      try {
-                        print("Email: ${emailController.text}");
-                        print("Password: ${passwordController.text}");
-                        final response = await authApi.register(
-                            emailController.text, passwordController.text);
-                        print("Response: $response");
-                        if (response['success']) {
-                          // Si el registro es exitoso, navega a la siguiente pantalla
-                          context.go(HomeScreenView.link);
-                        } else {
-                          // Muestra un mensaje si algo sale mal
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(response['message'] ??
-                                    'Error en el registro')),
-                          );
-                        }
-                      } catch (e) {
-                        print('Error en el registro: $e');
+                style: const ButtonStyle(),
+                onPressed: () async {
+                  if (valor) {
+                    // Registro
+                    log("Iniciando registro...");
+                    try {
+                      final authService = ref.read(
+                          authServiceProvider); // Obtenemos el servicio de autenticación
+                      final user = await authService.registerUser(
+                        emailController.text,
+                        passwordController.text,
+                      );
+                      if (user != null) {
+                        context.go(HomeScreenView
+                            .link); // Navegar si el registro es exitoso
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Error en el registro')),
                         );
                       }
-                    } else {
-                      // Login
-                      print("Iniciando sesión...");
-                      try {
-                        print("Email: ${emailController.text}");
-                        print("Password: ${passwordController.text}");
-                        final response = await authApi.login(
-                            emailController.text, passwordController.text);
-                        print("Response: $response");
-                        if (response['success']) {
-                          // Si el login es exitoso, navega a la siguiente pantalla
-                          context.go(HomeScreenView.link);
-                        } else {
-                          // Muestra un mensaje si algo sale mal
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(response['message'] ??
-                                    'Error en el login')),
-                          );
-                        }
-                      } catch (e) {
-                        print('Error en el login: $e');
+                    } catch (e) {
+                      print('Error en el registro: $e');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Error en el registro')),
+                      );
+                    }
+                  } else {
+                    // Login
+                    log("Iniciando sesión...");
+                    try {
+                      final authService = ref.read(
+                          authServiceProvider); // Obtenemos el servicio de autenticación
+                      final user = await authService.signInUser(
+                        emailController.text,
+                        passwordController.text,
+                      );
+                      if (user != null) {
+                        context.go(HomeScreenView
+                            .link); // Navegar si el inicio de sesión es exitoso
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Error en el login')),
+                          const SnackBar(
+                              content: Text('Error en el inicio de sesión')),
                         );
                       }
+                    } catch (e) {
+                      print('Error en el login: $e');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Error en el login')),
+                      );
                     }
-                  },
-                  child: Icon(
-                    Icons.arrow_forward_outlined,
-                    color: colors.primary,
-                  )),
+                  }
+                },
+                child: Icon(
+                  Icons.arrow_forward_outlined,
+                  color: colors.primary,
+                ),
+              ),
             ),
           ),
           Positioned(

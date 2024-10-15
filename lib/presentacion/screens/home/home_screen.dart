@@ -1,4 +1,5 @@
 import 'package:alcaldia_front/presentacion/providers/index_navbar_provider.dart';
+import 'package:alcaldia_front/presentacion/providers/navigation_provider.dart';
 import 'package:alcaldia_front/presentacion/screens/mapscreen/map_screen.dart';
 import 'package:alcaldia_front/widgets/navigationbar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class HomeScreenView extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final _page = ref.watch(pageIndexProvider);
     final _bottomNavigationKey = GlobalKey<CurvedNavigationBarState>();
+    final savedRoutes = ref.read(navigationStateProvider.notifier).savedRoutes;
     return Scaffold(
       bottomNavigationBar:
           curvednavbar(bottomNavigationKey: _bottomNavigationKey, page: _page),

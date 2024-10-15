@@ -1,34 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 class AuthApi {
   static const String baseUrl =
-      'http://192.168.56.1:3000/users'; // Asegúrate de que la URL sea correcta
-
-  // Método para crear un nuevo usuario
-  Future<Map<String, dynamic>> createUser(
-      String userName, String password) async {
-    final url = Uri.parse(baseUrl); // Endpoint para crear un usuario
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'userName': userName,
-        'password': password,
-      }),
-    );
-
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body); // Retorna la respuesta si es exitosa
-    } else {
-      throw Exception('Error al crear el usuario');
-    }
-  }
+      'https://mepath.onrender.com/users'; // Asegúrate de que la URL sea correcta
 
   // Método para iniciar sesión
-  Future<Map<String, dynamic>> login(String email, String password) async {
-    final url = Uri.parse('$baseUrl/login'); // Endpoint de login
-    final response = await http.post(
+  Future<void> login(String email, String password) async {
+    var url = Uri.parse('$baseUrl/login'); // Endpoint de login
+    var response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
@@ -36,30 +17,30 @@ class AuthApi {
         'password': password,
       }),
     );
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body); // Retorna la respuesta si es exitosa
-    } else {
-      throw Exception('Error en el inicio de sesión');
-    }
+    // Log de la respuesta
+    log("response status: ${response.statusCode}");
+    log("response body: ${response.body}");
   }
 
-  // Método para registrarse
-  Future<Map<String, dynamic>> register(String email, String password) async {
-    final url = Uri.parse(baseUrl); // Endpoint de registro
-    final response = await http.post(
+  Future<void> crearUsuario(String email, String password) async {
+    const String baseUrl = 'https://mepath.onrender.com/users';
+    var url = Uri.parse(baseUrl);
+
+    log('Iniciando registro...');
+
+    var response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: jsonEncode({
-        'email': email,
-        'password': password,
+        "userName": email,
+        "password": password,
       }),
     );
 
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body); // Retorna la respuesta si es exitosa
-    } else {
-      throw Exception('Error en el registro');
-    }
+    // Log de la respuesta
+    log("response status: ${response.statusCode}");
+    log("response body: ${response.body}");
   }
 }
