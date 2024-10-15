@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart' as lottie;
 import '../../providers/navigation_provider.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
@@ -13,7 +14,6 @@ class MapScreen extends ConsumerStatefulWidget {
 
 class _MapScreenState extends ConsumerState<MapScreen> {
   final MapController _mapController = MapController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +79,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             _mapControler.move(routePoints.last, initialZoom);
           }
           ;
-         
         },
-        child: Icon(isTracking ? Icons.stop : Icons.play_arrow),
+        child: !isTracking
+            ? Icon(Icons.play_arrow)
+            : lottie.Lottie.asset("assets/animations/runAnimation.json",
+                repeat: true, height: 100, width: 90),
       ),
     );
   }
